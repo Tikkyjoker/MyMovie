@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+import logo from './asset/logo.svg';
+import Axios from 'axios'
 import './App.css';
+import movieList from "./movieList";
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [dataArr, setData] = useState({row: []});
+    let search = (keyword) => {
+        let dataA = []
+        let url = "https://api.themoviedb.org/3/search/movie?api_key=59f43ae4196b87bbd71f630649bdcfff&query=" + keyword
+
+        Axios.get(url).then(result => {
+            console.log(result.data.results)
+            result.data.results.forEach(item => {
+                dataA.push(item)
+            })
+            setData({row: dataA})
+        })
+    }
+    useEffect(()=>{
+
+    },[])
+    return (
+        <div className="App">
+            <table className='Nev'>
+                <tbody>
+                <tr>
+                    <td>
+                        <img src={logo} width='50'/>
+                    </td>
+                    <td>
+                        coding my learn react
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input style={{fontSize: 24, display: 'block', width: '100%', paddingLeft: 8}}
+                   placeholder='enter your movie'
+                   onChange={(event) => {
+                       search(event.target.value)
+                   }}/>
+            {dataArr.row.map(item => (movieList(item)))}
+        </div>
+    );
 }
 
 export default App;
