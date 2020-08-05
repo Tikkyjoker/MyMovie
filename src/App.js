@@ -11,8 +11,8 @@ function App() {
         let dataA = []
         let url = "https://api.themoviedb.org/3/search/movie?api_key=59f43ae4196b87bbd71f630649bdcfff&query=" + keyword
 
+
         Axios.get(url).then(result => {
-            // console.log(result.data.results)
             result.data.results.forEach(item => {
                 dataA.push(item)
             })
@@ -20,9 +20,8 @@ function App() {
         })
     }
     useEffect(() => {
-
-    }, [])
-
+        search('g')
+    })
     return (
         <div className="App">
             <table className='Nev'>
@@ -43,7 +42,7 @@ function App() {
                        search(event.target.value)
                    }}/>
             {dataArr.row.map((item,index) => {
-                return <MovieList key={index} movie={item}/>
+                return <MovieList key={index} movie={item} key={item.id}/>
             })}
         </div>
     );
