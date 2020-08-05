@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from './asset/logo.svg';
 import Axios from 'axios'
 import './App.css';
-import movieList from "./movieList";
+import MovieList from "./movieList";
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
@@ -12,16 +12,17 @@ function App() {
         let url = "https://api.themoviedb.org/3/search/movie?api_key=59f43ae4196b87bbd71f630649bdcfff&query=" + keyword
 
         Axios.get(url).then(result => {
-            console.log(result.data.results)
+            // console.log(result.data.results)
             result.data.results.forEach(item => {
                 dataA.push(item)
             })
             setData({row: dataA})
         })
     }
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[])
+    }, [])
+
     return (
         <div className="App">
             <table className='Nev'>
@@ -41,7 +42,9 @@ function App() {
                    onChange={(event) => {
                        search(event.target.value)
                    }}/>
-            {dataArr.row.map(item => (movieList(item)))}
+            {dataArr.row.map((item,index) => {
+                return <MovieList key={index} movie={item}/>
+            })}
         </div>
     );
 }
